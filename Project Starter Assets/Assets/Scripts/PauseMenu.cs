@@ -39,6 +39,15 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    public void OnResume()
+    {
+        for (int i = 0; i < menuPanels.Length; i++)
+            menuPanels[i].SetActive(false);
+        pauseMenu.SetActive(false);                 // - set pause menu to inactive
+        Time.timeScale = 1f;                        // - unpause game
+        isPaused = false;
+    }
+
     public void OnEsc()
     {
         if(!isPaused)                                   // if not paused
@@ -50,6 +59,8 @@ public class PauseMenu : MonoBehaviour
         }
         else if(isPaused)
         {
+            for (int i = 0; i < menuPanels.Length; i++)
+                menuPanels[i].SetActive(false);
             AudioManager.instance.PlaySound("clickSound", this.transform);
             pauseMenu.SetActive(false);                 // - set pause menu to inactive
             Time.timeScale = 1f;                        // - unpause game
@@ -57,9 +68,14 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    public void OnMainMenu()
+    public void OnMainMenu(string sceneName)
     {
         Time.timeScale = 1f;
-        sceneLoader.LoadScene("Menu");
+        sceneLoader.LoadScene(sceneName);
+    }
+
+    public void OnExit()
+    {
+        sceneLoader.QuitGame();
     }
 }
